@@ -3,7 +3,7 @@ function WeatherIcon({condition, size = "medium"})
     const weatherIcon = {
         "Słonecznie": "☀️",
         "Pochmurno": "☁️",
-        "Deszczowo": "🌧️",
+        "Deszcz": "🌧️",
         "Burza": "⛈️",
         "Śnieg": "❄️",
         "Mgła": "🌫️",

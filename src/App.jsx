@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { weatherData } from './data/weatherData'
 import HomePage from './Pages/HomePage'
-import CityDetailPage from './Pages/CityDetailsPage'
+import CityDetailPage from './Pages/CityDetailPage'
 import './App.css'
 
 function App() {
@@ -36,7 +36,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage miasta={miasta}/>} />
-          <Route path="miasto/:cityId" element={<CityDetailPage miasta={miasta}/>} />
+          <Route path="/miasto/:cityId" element={<CityDetailPage miasta={miasta}/>} />
         </Routes>
       </BrowserRouter>
     </>

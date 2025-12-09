@@ -1,4 +1,6 @@
-import WeatherIcon from "./WeatherIcon";
+import WeatherIcon from './WeatherIcon'
+import { useSelector } from 'react-redux';
+import { convertTemperature, getUnitSymbol } from '../utils/temperature';
 function WeatherDetails({ miasto }){
     if(!miasto) return null;
 
@@ -8,26 +10,27 @@ function WeatherDetails({ miasto }){
           <div className="details-row">
             <div className="details-item">
               <strong>Temperatura:</strong>
-              <div>{miasto.temperatura} °C</div>
+              <div>{convertTemperature(miasto.aktualnaTemperatura, unit)}{unitSymbol}</div>
+              <div>{miasto.aktualnaTemperatura} °C</div>
             </div>
             <div>
-              <WeatherIcon condition={miasto.pogoda} size="large"></WeatherIcon>
+              <WeatherIcon condition={miasto.aktualnaPogoda}></WeatherIcon>
             </div>
             <div className="details-item">
               <strong>Warunki:</strong>
-              <div>{miasto.pogoda}</div>
+              <div>{miasto.aktualnaPogoda}</div>
             </div>
             <div className="details-item">
               <strong>Wiatr:</strong>
-              <div>{miasto.wiatr}</div>
+              <div>{miasto.aktualnyWiatr}</div>
             </div>
             <div className="details-item">
               <strong>Kierunek Wiatru:</strong>
-              <div>{miasto.kierunekWiatru}</div>
+              <div>{miasto.aktualnyKierunekWiatru}</div>
             </div>
             <div className="details-item">
               <strong>Zachmurzenie:</strong>
-              <div>{miasto.zachmurzenie}</div>
+              <div>{miasto.aktualneZachmurzenie}</div>
             </div>
             {Array.isArray(miasto.prognoza5dni) && (
               <div className="card details-panel forecast">
@@ -35,11 +38,13 @@ function WeatherDetails({ miasto }){
                 <div className="forecast-row">
                   {miasto.prognoza5dni.map((dzień, idx) => (
                     <div className="forecast-day" key={idx}>
-                       <div>
-                        <WeatherIcon condition={dzień.pogoda} size="medium"></WeatherIcon>
+                      <div>
+                        <WeatherIcon condition={dzień.pogoda}></WeatherIcon>
                       </div>
                       <div className="details-item"><strong>{dzień.dzień}</strong></div>
+                      <div>{convertTemperature(dzień.aktualnaTemperatura, unit)}{unitSymbol}</div>
                       <div className="details-item">Temperatura: {dzień.temperatura} °C</div>
+                      <div className="details-item">Pogoda: {dzień.pogoda}</div>
                       {dzień.kierunekWiatru && <div className="details-item">Kierunek wiatru: {dzień.kierunekWiatru}</div>}
                     </div>
                   ))}
@@ -52,6 +57,7 @@ function WeatherDetails({ miasto }){
 }
 
 export default WeatherDetails;
+
 
 
 

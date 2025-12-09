@@ -1,14 +1,17 @@
 import { useState, useMemo, useCallback } from 'react'
 import WeatherCard from '../components/WeatherCard'
 import WeatherDetails from '../components/WeatherDetails'
+import { useNavigate } from 'react-router-dom';
+import UnitSwitcher from '../components/UnitSwitcher';
 
 function HomePage({miasta}) {
   const [wybraneMiasto, setWybraneMiasto] = useState(null);
   const [searchTerm, setSearchTerm] = useState(''); 
+  const navigate = useNavigate();
 
   const handleClick = useCallback((miasto) => {
     console.log('Kliknieto miasto:', miasto.miasto);
-    setWybraneMiasto(miasto);
+    navigate(`/miasto/${miasto.id}`)
   }, []);
 
   const filteredMiasta = useMemo(() =>
@@ -22,7 +25,7 @@ function HomePage({miasta}) {
   return (
     <>
       <h1>Pogoda w Polsce</h1>
-      
+        <UnitSwitcher />
       <div>
         <input 
           type ="text"
@@ -51,4 +54,3 @@ function HomePage({miasta}) {
 }
 
 export default HomePage
- 
