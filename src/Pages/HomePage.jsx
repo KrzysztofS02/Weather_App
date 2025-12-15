@@ -25,6 +25,7 @@ function HomePage({miasta}) {
   return (
     <>
       <h1>Pogoda w Polsce</h1>
+      <button onClick={() => navigate('/ulubione')}>Ulubione miasta</button>
         <UnitSwitcher />
       <div>
         <input 
@@ -39,6 +40,7 @@ function HomePage({miasta}) {
         {filteredMiasta.map((dane) => (
           <WeatherCard 
             key={dane.id}
+            cityId = {dane.id}
             miasto={dane.miasto} 
             temperatura={dane.aktualnaTemperatura} 
             onClick={() => handleClick(dane)}

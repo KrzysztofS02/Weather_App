@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { weatherData } from './data/weatherData'
 import HomePage from './Pages/HomePage'
 import CityDetailPage from './Pages/CityDetailPage'
+import FavoritePage from './Pages/FavoritePage'
 import './App.css'
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage miasta={miasta}/>} />
           <Route path="/miasto/:cityId" element={<CityDetailPage miasta={miasta}/>} />
+          <Route path="/ulubione" element={<FavoritePage miasta={miasta}/>} />
         </Routes>
       </BrowserRouter>
     </>

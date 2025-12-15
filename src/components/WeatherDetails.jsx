@@ -3,7 +3,9 @@ import { useSelector } from 'react-redux';
 import { convertTemperature, getUnitSymbol } from '../utils/temperature';
 function WeatherDetails({ miasto }){
     if(!miasto) return null;
-
+    
+    const unit = useSelector((state) => state.settings.temperatureUnit);
+    const unitSymbol = getUnitSymbol(unit);
     return(
         <div className="card details-panel">
           <h2>Szczegóły pogody dla {miasto.miasto}</h2>
