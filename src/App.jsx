@@ -1,23 +1,51 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { weatherData } from './data/weatherData'
+import {getWeatherForCities, getForect} from './services/weatherService'
+import {transformCurrentWeather, transformForecast} from './utils/weatherTransform'
 import HomePage from './Pages/HomePage'
 import CityDetailPage from './Pages/CityDetailPage'
 import FavoritePage from './Pages/FavoritePage'
 import './App.css'
 
+const CITIES = ['Warszawa', 'Kraków', 'Wrocław', 'Łódź', 'Gdańsk'];
+
 function App() {
   const [miasta, setMiasta] = useState([]); 
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const loadData = async () => {
-      setLoading(true);
-      
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      setMiasta(weatherData);
-      setLoading(false);
+      try {
+        setLoading(true);
+        setError(null);
+        console.log("Pobieranie danych");
+
+        const currentWeatherData = await getWeatherForCities(CITIES);
+        console.log("Pobrano dane", currentWeatherData);
+        const transformCities = currentWeatherData.map(transformCurrentWeather);
+
+        console.log(transformCities);
+
+        const citiesWithForeacast = await Promise.all(
+          transformCities.map(async(city, index) =>{
+           const forecastData = await getForect(CITIES[index]);
+           const forecast = transformForecast(forecastData);
+           return{
+            ...city,
+            prognoza5Dni: forecast
+           }
+          })
+        );
+        console.log(citiesWithForeacast);
+        setMiasta(citiesWithForeacast);
+      }
+      catch(err){
+        console.error('Blad', err);
+      }
+      finally{
+        setLoading(false);
+      }
     };
 
     loadData();
@@ -46,28 +74,3 @@ function App() {
 }
 
 export default App
- 
-
-
-
-
-
-
-
-
-
-
-       {/* {filteredMiasta.map((dane) => {
-           return(
-             <WeatherCard miasto={dane.miasto} temperatura={dane.temperatura} onClick={() => handleClick(dane)}></WeatherCard>
-           )
-         }
-       )}
-       {wybraneMiasto && (
-         <WeatherDetails wybraneMiasto={wybraneMiasto} />
-       )}
-     </>
-   )
- }
-
- export default App */}
