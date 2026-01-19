@@ -14,6 +14,14 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const handleAddCity= (newCity) =>{
+    setMiasta(prevCities => [...prevCities, newCity]);
+  }
+
+  const handleRemoveCity = (cityId) => {
+    setMiasta(prevCities => prevCities.filter(city => city.id !== cityId))
+  }
+
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -53,7 +61,7 @@ function App() {
 
   if (loading) {
     return (
-      <div>
+      <div className='loading-container'>
         <h1>Ładowanie danych pogodowych...</h1>
         <p>Proszę czekać...</p>
       </div>
@@ -64,7 +72,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage miasta={miasta}/>} />
+          <Route path="/" element={<HomePage miasta={miasta} onAddCity={handleAddCity} onRemoveCity={handleRemoveCity}/>} />
           <Route path="/miasto/:cityId" element={<CityDetailPage miasta={miasta}/>} />
           <Route path="/ulubione" element={<FavoritePage miasta={miasta}/>} />
         </Routes>

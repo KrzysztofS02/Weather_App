@@ -34,11 +34,11 @@ function WeatherDetails({ miasto }){
               <strong>Zachmurzenie:</strong>
               <div>{miasto.aktualneZachmurzenie}</div>
             </div>
-            {Array.isArray(miasto.prognoza5dni) && (
+            {Array.isArray(miasto.prognoza5Dni) && (
               <div className="card details-panel forecast">
                 <h3>5-dniowa prognoza</h3>
                 <div className="forecast-row">
-                  {miasto.prognoza5dni.map((dzień, idx) => (
+                  {miasto.prognoza5Dni.map((dzień, idx) => (
                     <div className="forecast-day" key={idx}>
                       <div>
                         <WeatherIcon condition={dzień.pogoda}></WeatherIcon>
@@ -59,62 +59,3 @@ function WeatherDetails({ miasto }){
 }
 
 export default WeatherDetails;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function WeatherDetails({wybraneMiasto}){
-//     if(!wybraneMiasto) return null;
-    
-//     return(
-//         <div>
-//           <h3>Szczegóły pogody dla: {wybraneMiasto.miasto} </h3>
-//           <p>Wiatr: {wybraneMiasto.wiatr}</p>
-//           <p>Pogoda: {wybraneMiasto.pogoda}</p>
-//           <p>Kierunek wiatru: {wybraneMiasto.kierunekWiatru}</p>
-//           <p>Zachmurzenie: {wybraneMiasto.zachmurzenie}</p>
-//           {wybraneMiasto.prognoza5dni.map((dzien) =>
-//             (
-//               <div>
-//                 <div>
-//                   <p1>Dzień tygodnia: {dzien.dzien} |</p1>
-//                 </div>
-//                 <div>
-//                   <p1>Temperatura: {dzien.temperatura} |</p1>
-//                 </div>
-//                 <div>
-//                   <p1>Pogoda: {dzien.pogoda} </p1>
-//                 </div>
-//                 <div>
-//                   <p1>Kierunek wiatru: {dzien.kierunekWiatru} |</p1>
-//                 </div>
-//                 <div>
-//                   <p1>Zachmurzenie: {dzien.zachmurzenie} |</p1>
-//                 </div>
-//               </div>
-//             )
-//           )}
-//         </div>
-//     )
-// }
-// export default WeatherDetails

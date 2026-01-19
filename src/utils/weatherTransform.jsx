@@ -33,20 +33,20 @@ const getDayName = (date) => {
 export const transformCurrentWeather = (apiData) =>({
     id: apiData.id,
     miasto: apiData.name.toLowerCase(),
-    aktualnaTemperatura: Math.round(apiData.min.temp),
+    aktualnaTemperatura: Math.round(apiData.main.temp),
     aktualnaPogoda: weatherToPolish[apiData.weather[0].main] || apiData.weather[0].description,
     aktualnyWiatr: Math.round(apiData.wind.speed * 3.6),
     aktualnyKierunekWiatru: getWindDirection(apiData.wind.deg),
-    aktualneZachmurzenie: apiData.cloud.all,
+    aktualneZachmurzenie: apiData.clouds.all,
     prognoza5Dni: []
 });
 
 export const transformForecast = (forecastData) => {
     const dailyData = {};
 
-    forecastData.list.forEch(item => {
+    forecastData.list.forEach(item => {
         const data = item.dt_txt.split(' ')[0];
-        if(!dailyData[date]){
+        if(!dailyData[data]){
             dailyData[data] = {
                 temps: [],
                 weather: item.weather[0].main,
@@ -57,7 +57,7 @@ export const transformForecast = (forecastData) => {
             };
         }
 
-        dailyDate[date].temps.push(item.main.temp);
+        dailyData[data].temps.push(item.main.temp);
         if(item.rain && item.rain['3h']){
             dailyData[date].rain += item.rain['3h'];
         }
@@ -76,7 +76,7 @@ export const transformForecast = (forecastData) => {
             wiatr: Math.round(day.wind * 3.6),
             kierunekWiatru: getWindDirection(day.windDeg),
             zachmurzenie: day.clouds,
-            opadyPrawdopodobienstwo: day.rain > 0 ? Math.min(Math.round(day.rain)) : 0,
+            opadyPrawdopodobienstwo: day.rain > 0 ? Math.min(100, Math.round(day.rain / 15) * 100) : 0,
             opadyRodzaj: day.rain > 0 ? 'deszcz': null,
             opadyIlosc: Math.round(day.rain)
         };

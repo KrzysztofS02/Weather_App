@@ -22,35 +22,3 @@ function WeatherCard(props){
     )
 }
 export default WeatherCard;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function WeatherCard(props){
-//     return(
-//         <div onClick={props.onClick}>
-//             <h2>{props.miasto}</h2>
-//             <h2>{props.temperatura}</h2>
-//         </div>
-//     )
-    
-// }
-
-// export default WeatherCard

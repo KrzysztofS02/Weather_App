@@ -1,42 +1,230 @@
+/* --- Zmienne i tło (Globalne) --- */
+:root {
+  --bg-gradient: linear-gradient(135deg, #4b6cb7 0%, #182848 100%); /* Ciemniejszy, elegancki niebieski */
+  --card-bg: rgba(255, 255, 255, 0.1);
+  --card-hover: rgba(255, 255, 255, 0.2);
+  --details-bg: rgba(0, 0, 0, 0.25);
+  --text-main: #ffffff;
+  --text-secondary: #d1d5db;
+  --accent-color: #ffd700; /* Złoty dla temperatury */
+  --border: 1px solid rgba(255, 255, 255, 0.1);
+  --radius: 20px;
+  --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
 #root {
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* --- Nagłówki i Teksty --- */
+h1 { font-size: 2.5rem; text-shadow: 0 4px 10px rgba(0,0,0,0.3); margin-bottom: 2rem;}
+h2 { margin-top: 0; font-weight: 600; }
+h3 { margin: 0 0 1rem 0; color: var(--text-secondary); }
+
+/* --- Globalne przyciski i Inputy --- */
+button {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 10px 24px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  margin: 10px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+input[type="text"] {
+  width: 100%;
+  max-width: 500px;
+  padding: 15px 25px;
+  border-radius: 50px;
+  border: none;
+  background: rgba(255, 255, 255, 0.95);
+  color: #1a1a1a;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  outline: none;
+  margin-bottom: 2rem;
+  transition: transform 0.2s;
+}
+input[type="text"]:focus { transform: scale(1.02); }
+
+/* --- Grid dla listy miast --- */
+.cities-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
 }
 
-.card {
-  padding: 2em;
+/* --- Karta Miasta (WeatherCard) --- */
+/* Odnosi się do className="city-card" w twoim pliku */
+.city-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  border: var(--border);
+  padding: 2rem;
+  position: relative;
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 180px;
+  text-align: left; /* Tekst do lewej wygląda nowocześniej */
 }
 
-.read-the-docs {
-  color: #888;
+.city-card:hover {
+  background: var(--card-hover);
+  transform: translateY(-8px);
+  border-color: rgba(255,255,255,0.3);
+}
+
+.city-card.selected {
+  border: 2px solid var(--accent-color);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.city-card h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Sekcja z temperaturą i opisem */
+.city-card .meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: auto;
+}
+
+.city-card .temp {
+  font-size: 3.5rem;
+  font-weight: 700;
+  background: linear-gradient(to bottom, #fff, #ddd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+
+.city-card .cond {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  text-align: right;
+  max-width: 50%;
+}
+
+/* --- Szczegóły (WeatherDetails) --- */
+/* Odnosi się do className="card details-panel" */
+.details-panel {
+  background: rgba(0, 0, 0, 0.3); /* Ciemniejsze tło dla detali */
+  border-radius: var(--radius);
+  border: var(--border);
+  padding: 3rem;
+  margin: 3rem auto;
+  max-width: 900px;
+  backdrop-filter: blur(20px);
+  box-shadow: var(--shadow);
+  animation: fadeIn 0.5s ease-in;
+}
+
+/* Układ Grid dla pojedynczych detali */
+.details-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+/* Pojedynczy kafelek szczegółów */
+.details-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.details-item strong {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* --- Prognoza 5-dniowa --- */
+/* Odnosi się do className="card details-panel forecast" */
+.details-panel.forecast {
+  grid-column: 1 / -1; /* Rozciągnij na całą szerokość grida */
+  margin-top: 3rem;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.forecast-row {
+  display: flex;
+  flex-wrap: wrap; /* Zawijaj na małych ekranach */
+  gap: 15px;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.forecast-day {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  min-width: 140px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s;
+}
+
+.forecast-day:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* --- Animacje i Loading --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.loading-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
